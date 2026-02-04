@@ -24,12 +24,13 @@ show slb member status
 show tech
 ```
 
-**弘积：**
+**弘积：如果设备存在主备状态，需要在ACTIVE的设备上收集log**
 
 ```bash
 show slb virtual-address
 show slb pool
 show run
 ```
+
 
 **本项目仅提供实现思路，欢迎学习交流。**
