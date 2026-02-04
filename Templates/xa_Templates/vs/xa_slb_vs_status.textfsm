@@ -1,0 +1,14 @@
+#VS提取字段
+Value VS_NAME (\S+)
+Value VS_TYPE (tcp|tcps|udp|http|https|dns|dnstcp|ftp|ftps|rdp|siptcp|sip|udp|radauth|radacct|diameter)
+Value VS_IP (\S+)
+Value VS_PORT (\S+)
+Value VS_HEALTH_CHECK_STATUS (.+)
+
+Start
+ ^<<<< SLB Statistics >>>> -> VS_STATUS
+
+VS_STATUS
+ ^${VS_TYPE} virtual service "${VS_NAME}" \(${VS_IP} ${VS_PORT}\) ${VS_HEALTH_CHECK_STATUS} -> Record
+# 兜底策略,避免VS状态为空无法取到VS的信息
+ ^${VS_TYPE} virtual service "${VS_NAME}" \(${VS_IP} ${VS_PORT}\) -> Record

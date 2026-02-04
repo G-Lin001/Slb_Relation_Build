@@ -1,0 +1,21 @@
+#MEMBER提取字段
+Value MEMBER_NAME (\S+)
+Value MEMBER_IP (\S+)
+Value MEMBER_PORT (\S+)
+#Value MEMBER_MONITOR_NAME (\S+)
+#Value MEMBER_MONITOR_MINI_PASS (\S+)
+Value MEMBER_AVAILABLE_STATUS (\S+)
+
+Start
+  ^slb member ${MEMBER_NAME} -> Member
+  
+Member
+  ^\s+(ip|ipv6) address ${MEMBER_IP}
+  ^\s+port ${MEMBER_PORT}
+#^\s+monitor least-number ${MEMBER_MONITOR_MINI_PASS}
+#^\s+monitor \S+ ${MEMBER_MONITOR_NAME}
+  ^\s+state ${MEMBER_AVAILABLE_STATUS}
+  ^! -> Record Start
+  ^slb member -> Continue.Record
+  ^slb member ${MEMBER_NAME}
+  ^slb pool -> Record Start

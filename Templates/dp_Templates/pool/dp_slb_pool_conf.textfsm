@@ -1,0 +1,20 @@
+# POOL提取字段
+Value POOL_NAME (\S+)
+#Value POOL_LB_MODE (\S+)
+Value List MEMBER_NAME (\S+)
+#Value POOL_MONITOR_NAME (\S+)
+#Value POOL_MONITOR_MINI_PASS (\S+)
+
+# 定义状态机
+Start
+ ^slb pool ${POOL_NAME} -> Pool
+
+Pool
+#^\s+load-balancing-mode ${POOL_LB_MODE}
+ ^\s+member add ${MEMBER_NAME}
+#^\s+monitor least-number ${POOL_MONITOR_MINI_PASS}
+#^\s+monitor \S+ ${POOL_MONITOR_NAME}
+ ^! -> Record Start 
+ ^slb pool -> Continue.Record
+ ^slb pool ${POOL_NAME}
+ ^slb virtual-service -> Record Start

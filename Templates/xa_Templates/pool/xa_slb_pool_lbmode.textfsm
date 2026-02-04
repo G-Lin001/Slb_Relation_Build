@@ -1,0 +1,10 @@
+# POOL提取字段
+Value POOL_NAME (\S+)
+Value POOL_LB_MODE (\S+)
+
+# 定义状态机
+Start
+ ^#slb configuration -> POOL_LB_MODE
+
+POOL_LB_MODE
+ ^slb group method "${POOL_NAME}" ${POOL_LB_MODE} -> Record

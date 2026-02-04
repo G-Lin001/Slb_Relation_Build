@@ -1,0 +1,9 @@
+#池信息提取
+Value POOL_NAME (\S+)
+Value POOL_HEALTH_CHECK_STATUS (\S+)
+
+Start
+  ^slb pool ${POOL_NAME} -> Pool
+
+Pool
+  ^\s+status ${POOL_HEALTH_CHECK_STATUS} -> Record Start

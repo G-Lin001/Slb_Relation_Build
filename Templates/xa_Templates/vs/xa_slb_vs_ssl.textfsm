@@ -1,0 +1,13 @@
+#VS提取字段
+Value VS_NAME (\S+)
+Value SSL_NAME (\S+)
+Value SSL_TYPE (virtual|real)
+
+
+
+Start
+ ^#ssl host settings -> VS_SSL
+
+VS_SSL
+ ^ssl host ${SSL_TYPE} "${SSL_NAME}" "${VS_NAME}" -> Record
+ ^ssl host ${SSL_TYPE} "${SSL_NAME}" -> Record

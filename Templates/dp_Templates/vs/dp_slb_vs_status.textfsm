@@ -1,0 +1,10 @@
+#虚拟服务信息提取
+Value VS_NAME (\S+)
+Value VS_HEALTH_CHECK_STATUS (\S+)
+
+Start
+  ^slb virtual-service ${VS_NAME} -> VirtualService
+
+
+VirtualService
+  ^\s+status ${VS_HEALTH_CHECK_STATUS} -> Record Start

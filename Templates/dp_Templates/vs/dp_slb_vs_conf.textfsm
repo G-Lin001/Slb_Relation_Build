@@ -1,0 +1,28 @@
+# VS提取字段
+Value VS_NAME (\S+)
+Value VS_IP (\S+)
+Value VS_PORT_RANGE (\d+ \d+)
+Value VS_TYPE (\S+)
+Value List POOL_NAME (\S+)
+#Value VS_PERSISTENCE_NAME (\S+)
+#Value VS_POLICY (\S+)
+#Value VS_HTTP_REWRITE (\S+)
+Value VS_AVAILABLE_STATUS (\S+)
+
+# 定义状态机
+Start
+ ^slb virtual-service ${VS_NAME} \S+ -> VirtualService
+
+VirtualService
+ ^\s+(ip|ipv6) address ${VS_IP}
+ ^\s+port range ${VS_PORT_RANGE}
+ ^\s+type ${VS_TYPE}
+ ^\s+pool ${POOL_NAME}
+ ^\s+backup-pool ${POOL_NAME}
+ #^\s+persistent type-name \S+ persistence-name ${VS_PERSISTENCE_NAME}
+ #^\s+tcp-policy \S+ ${VS_POLICY}
+ #^\s+http-rewrite ${VS_HTTP_REWRITE}
+ ^\s+status ${VS_AVAILABLE_STATUS}
+ ^! -> Record Start
+ ^slb virtual-service -> Continue.Record
+ ^slb virtual-service ${VS_NAME}

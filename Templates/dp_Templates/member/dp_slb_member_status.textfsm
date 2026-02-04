@@ -1,0 +1,9 @@
+#成员信息提取
+Value MEMBER_NAME (\S+)
+Value MEMBER_HEALTH_CHECK_STATUS (.+)
+
+Start
+  ^slb member ${MEMBER_NAME} -> Member
+  
+Member
+  ^\s+status ${MEMBER_HEALTH_CHECK_STATUS} -> Record Start

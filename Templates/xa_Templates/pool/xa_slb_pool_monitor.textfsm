@@ -1,0 +1,10 @@
+# POOL提取字段
+Value POOL_NAME (\S+)
+Value POOL_MONITOR_NAME (\S+)
+
+# 定义状态机
+Start
+ ^#slb configuration -> POOL_MONITOR
+
+POOL_MONITOR
+ ^slb group health "${POOL_NAME}" ${POOL_MONITOR_NAME} -> Record

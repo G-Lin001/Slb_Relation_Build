@@ -1,0 +1,10 @@
+# VS提取字段
+Value VS_NAME (\S+)
+Value POOL_NAME (\S+)
+
+# 定义状态机
+Start
+ ^#slb configuration -> VS_POOL_RELATION
+
+VS_POOL_RELATION
+ ^slb policy default "${VS_NAME}" "${POOL_NAME}" -> Record

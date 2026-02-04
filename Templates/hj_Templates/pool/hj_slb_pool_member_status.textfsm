@@ -1,0 +1,15 @@
+Value Filldown POOL_NAME (\S+)
+Value Filldown POOL_HEALTH_CHECK_STATUS (\S+)
+Value Required MEMBER_IP (\S+)
+Value MEMBER_PORT (\S+)
+Value MEMBER_HEALTH_CHECK_STATUS (UP|DOWN|DISABLED)
+
+Start
+  ^-+ POOL: ${POOL_NAME}\s+State: ${POOL_HEALTH_CHECK_STATUS} -> Pool
+
+Pool
+  ^${MEMBER_IP}:${MEMBER_PORT}.*${MEMBER_HEALTH_CHECK_STATUS} -> Record  
+  ^-+ POOL:\s+ -> Continue.Clearall
+  ^-+ POOL: ${POOL_NAME}\s+State: ${POOL_HEALTH_CHECK_STATUS}
+  ^\S+ -> Record Start
+  ^\s+ -> Record Start

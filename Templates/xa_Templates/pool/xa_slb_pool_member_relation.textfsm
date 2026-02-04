@@ -1,0 +1,10 @@
+# POOL提取字段
+Value POOL_NAME (\S+)
+Value MEMBER_NAME (\S+)
+
+# 定义状态机
+Start
+ ^#slb configuration -> POOL_MEMBER_RELATION
+
+POOL_MEMBER_RELATION
+ ^slb group member "${POOL_NAME}" "${MEMBER_NAME}" -> Record

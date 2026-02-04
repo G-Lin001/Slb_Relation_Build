@@ -1,0 +1,21 @@
+Value Filldown VS_IP (\S+)
+Value Filldown VS_IP_HEALTH_CHECK_STATUS (\S+)
+Value VS_PORT (\S+)
+Value Required VS_NAME (\S+)
+Value VS_TYPE (\S+)
+Value VS_NAME_HEALTH_CHECK_STATUS (\S+)
+Value POOL_NAME (\S+)
+
+Start
+  ^-+ ${VS_IP} ${VS_IP_HEALTH_CHECK_STATUS} -+ -> VS
+
+VS
+  ^port: ${VS_PORT}\s+protocol: ${VS_TYPE}\s+${VS_NAME_HEALTH_CHECK_STATUS}
+  ^curr:.*
+  ^POOL: ${POOL_NAME}
+  ^Total.* -> Record
+  ^${VS_NAME}:
+  ^-+ \S+ \S+ -+ -> Continue.Record
+  ^-+ \S+ \S+ -+ -> Continue.Clearall
+  ^-+ ${VS_IP} ${VS_IP_HEALTH_CHECK_STATUS} -+
+  ^\S+ -> Start

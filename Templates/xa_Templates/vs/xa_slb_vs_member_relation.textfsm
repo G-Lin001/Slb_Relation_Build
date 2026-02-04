@@ -1,0 +1,10 @@
+# VS提取字段
+Value VS_NAME (\S+)
+Value MEMBER_NAME (\S+)
+
+# 定义状态机
+Start
+ ^#slb configuration -> VS_MEMBER_RELATION
+
+VS_MEMBER_RELATION
+ ^slb policy static "${VS_NAME}" "${MEMBER_NAME}" -> Record
